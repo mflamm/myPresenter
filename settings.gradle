@@ -1,0 +1,2 @@
+include ':mypresenter-core'
+include ':mypresenter-lib-pdf'

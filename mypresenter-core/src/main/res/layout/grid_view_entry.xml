@@ -1,0 +1,10 @@
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/gridview_imageview"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:padding="5dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher"
+        android:contentDescription="Thumbnail of media file." >
+
+</ImageView>

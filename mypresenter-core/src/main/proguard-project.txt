@@ -1,0 +1,2 @@
+# Specifies not to ignore non-public library class members.
+-dontskipnonpubliclibraryclassmembers

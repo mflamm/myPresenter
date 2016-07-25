@@ -1,0 +1,78 @@
+apply plugin: 'com.android.application'
+
+dependencies {
+    // android support
+    compile 'com.android.support:support-annotations:22.2.0'
+    compile 'com.android.support:support-v4:22.2.0'
+    // android support multidex
+    compile 'com.android.support:multidex:1.0.1'
+    // android support multidex for tests
+    androidTestCompile 'com.android.support:multidex-instrumentation:1.0.1'
+    // pdf library project
+    compile project(':mypresenter-lib-pdf')
+}
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion '22.0.1'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    defaultConfig {
+        testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFile getDefaultProguardFile('proguard-android.txt')
+            proguardFile file('src/main/proguard-project.txt')
+        }
+    }
+
+    productFlavors {
+        dev {
+            // Reduces compilation time by using
+            // the incremental multidex algorithm
+            minSdkVersion 21
+        }
+
+        prod {
+            minSdkVersion 13
+        }
+    }
+
+    dexOptions {
+        preDexLibraries false
+        javaMaxHeapSize "1g"
+    }
+
+    packagingOptions {
+        exclude 'rootdoc.txt'
+    }
+
+    applicationVariants.all { variant ->
+        task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
+            source = variant.javaCompile.source
+            ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+            classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
+            destinationDir file("${rootDir}/doc/$variant.name/javadoc")
+
+            title "Documentation for the myPresenter Android project"
+            description "Generates Javadoc for build $variant.name."
+
+            options {
+                memberLevel = JavadocMemberLevel.PRIVATE
+                links "http://docs.oracle.com/javase/7/docs/api/"
+                linksOffline "http://d.android.com/reference", "${android.sdkDirectory}/docs/reference"
+            }
+
+            exclude '**/BuildConfig.java'
+            exclude '**/R.java'
+        }
+    }
+}

@@ -1,0 +1,16 @@
+de.hska.iam.presentationapp.activities
+de.hska.iam.presentationapp.cache
+de.hska.iam.presentationapp.cache.bitmap
+de.hska.iam.presentationapp.cache.file
+de.hska.iam.presentationapp.flipper
+de.hska.iam.presentationapp.fragments
+de.hska.iam.presentationapp.fragments.adapters
+de.hska.iam.presentationapp.fragments.dialogs
+de.hska.iam.presentationapp.media
+de.hska.iam.presentationapp.media.utils
+de.hska.iam.presentationapp.playlist
+de.hska.iam.presentationapp.preferences
+de.hska.iam.presentationapp.queries
+de.hska.iam.presentationapp.queries.selection
+de.hska.iam.presentationapp.services
+de.hska.iam.presentationapp.services.playlist

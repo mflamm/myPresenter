@@ -1,0 +1,28 @@
+# generated files
+bin/
+gen/
+obj/
+gen-external-apklibs/
+
+# Local configuration files (sdk path, sdk version, etc)
+local.properties
+project.properties
+
+# maven output folder
+target/
+
+# gradle output folder
+.gradle
+build/
+libs/
+
+# IntelliJ project files
+.idea
+*.iml
+*.ipr
+
+# Eclipse project files
+.classpath
+.project
+.metadata
+.settings

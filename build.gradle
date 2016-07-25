@@ -1,0 +1,41 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+buildscript {
+    repositories {
+        // remote maven repo
+        mavenCentral()
+        // local maven repo
+        mavenLocal()
+    }
+
+    dependencies {
+        // gradle plugin for android
+        classpath 'com.android.tools.build:gradle:1.2.3'
+    }
+}
+
+subprojects {
+    repositories {
+        // remote maven repo
+        mavenCentral()
+        // local maven repo with support library in android home
+        maven {
+            url 'file://' + System.getenv()['ANDROID_HOME'] + '/extras/android/m2repository'
+        }
+    }
+}
+
+// updates the gradle wrapper script to the given version
+task wrapper(type: Wrapper) {
+    gradleVersion '2.4'
+}
+
+// deploys the app on the device and starts it
+task appStart(type: Exec, dependsOn: ':mypresenter-core:installDevDebug') {
+    def adb = "$System.env.ANDROID_HOME/platform-tools/adb"
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine 'cmd', '/c', "$adb", 'shell', 'am', 'start', '-n', 'de.hska.iam.presentationapp/.activities.ChooseMediaActivity'
+    } else {
+        commandLine "$adb", 'shell', 'am', 'start', '-n', 'de.hska.iam.presentationapp/.activities.ChooseMediaActivity'
+    }
+}

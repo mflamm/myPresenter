@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/chooseFormat"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/filterMediaFormats"/>
+    <item
+        android:id="@+id/setTime"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/setTime"/>
+    <item
+        android:id="@+id/action_start_set"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/action_start_set"/>
+    <item
+        android:id="@+id/Open_Data"
+        android:showAsAction="ifRoom|withText"
+        android:title="Starten mit"/>
+    <item
+        android:id="@+id/Share_Menu"
+        android:showAsAction="ifRoom|withText"
+        android:title="Teilen"/>
+
+
+
+
+</menu>

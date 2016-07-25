@@ -1,0 +1,16 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="horizontal" >
+
+    <view
+        android:id="@+id/flipper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="de.hska.iam.presentationapp.flipper.PresentationFlipper"
+        android:adjustViewBounds="true"
+        android:keepScreenOn="true" >
+    </view>
+
+</LinearLayout>
