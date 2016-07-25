@@ -1,0 +1,7 @@
+.gitattributes
+!.gitattributes
+!.gitignore
+!lib
+!src
+!tests
+!vc8curl.sln

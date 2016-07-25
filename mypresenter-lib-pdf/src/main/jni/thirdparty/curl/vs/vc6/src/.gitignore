@@ -1,0 +1,5 @@
+.gitignore
+!.gitattributes
+!.gitignore
+!vc6curltool.dsp
+!vc6curltool.dsw

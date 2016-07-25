@@ -1,0 +1,5 @@
+vc6_libcurl_dsp.foot
+!.gitattributes
+!.gitignore
+!*.foot
+!*.head
