@@ -1,0 +1,7 @@
+lib/vc6_libcurl_dsp.foot
+!.gitattributes
+!.gitignore
+!README
+!lib
+!src
+!tests

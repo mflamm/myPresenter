@@ -1,0 +1,5 @@
+.gitignore
+!.gitattributes
+!.gitignore
+!*.foot
+!*.head

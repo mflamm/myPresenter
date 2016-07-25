@@ -2,8 +2,8 @@ apply plugin: 'com.android.application'
 
 dependencies {
     // android support
-    compile 'com.android.support:support-annotations:22.2.0'
-    compile 'com.android.support:support-v4:22.2.0'
+    compile 'com.android.support:support-annotations:24.1.1'
+    compile 'com.android.support:support-v4:24.1.1'
     // android support multidex
     compile 'com.android.support:multidex:1.0.1'
     // android support multidex for tests
@@ -38,7 +38,7 @@ android {
         dev {
             // Reduces compilation time by using
             // the incremental multidex algorithm
-            minSdkVersion 21
+            minSdkVersion 19
         }
 
         prod {
