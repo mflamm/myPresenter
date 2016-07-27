@@ -1,27 +1,28 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/chooseFormat"
+        android:icon="@drawable/filter_outline_36dp"
         android:showAsAction="ifRoom|withText"
-        android:title="@string/filterMediaFormats"/>
+        android:title="@string/filterMediaFormats" />
     <item
         android:id="@+id/setTime"
+        android:icon="@drawable/ic_access_time_white_24dp"
         android:showAsAction="ifRoom|withText"
-        android:title="@string/setTime"/>
+        android:title="@string/setTime" />
     <item
         android:id="@+id/action_start_set"
+        android:icon="@android:drawable/ic_media_play"
         android:showAsAction="ifRoom|withText"
-        android:title="@string/action_start_set"/>
+        android:title="@string/action_start_set" />
     <item
         android:id="@+id/Open_Data"
+        android:icon="@drawable/ic_open_in_new_white_36dp"
         android:showAsAction="ifRoom|withText"
-        android:title="Starten mit"/>
+        android:title="@string/open_with" />
     <item
         android:id="@+id/Share_Menu"
+        android:icon="@drawable/ic_send_white_36dp"
         android:showAsAction="ifRoom|withText"
-        android:title="Teilen"/>
-
-
-
-
+        android:title="@string/share" />
 </menu>

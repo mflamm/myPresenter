@@ -2,11 +2,11 @@
 <resources>
 
     <string name="app_name">myPresenter</string>
-    <string name="action_start_set">Starten</string>
+    <string name="action_start_set">Start</string>
     <string name="dialogDisplayTimeTitle">Wählen Sie die Anzeigezeit</string>
     <string name="dialogChooseFormatTitle">Dateiformate auswählen</string>
-    <string name="setTime">Zeit einstellen</string>
-    <string name="filterMediaFormats">Dateiformate filtern</string>
+    <string name="setTime">Zeit</string>
+    <string name="filterMediaFormats">Filtern</string>
     <string name="file_name1">Ordner Anlegen</string>
     <string name="buttonOK">OK</string>
     <string name="buttonCancel">Abbrechen</string>
@@ -14,5 +14,7 @@
     <string name="dialogChooseFormatSecondsText">seconds</string>
     <string name="send_to">Senden</string>
     <string name="file_name">Screenshots</string>
+    <string name="share">Teilen</string>
+    <string name="open_with">Öffnen mit</string>
 
 </resources>
