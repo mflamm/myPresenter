@@ -13,8 +13,8 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion '22.0.1'
+    compileSdkVersion 23
+    buildToolsVersion '24.0.1'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -42,13 +42,13 @@ android {
         }
 
         prod {
-            minSdkVersion 13
+            minSdkVersion 19
         }
     }
 
     dexOptions {
-        preDexLibraries false
-        javaMaxHeapSize "1g"
+        preDexLibraries true
+        javaMaxHeapSize "2g"
     }
 
     packagingOptions {
