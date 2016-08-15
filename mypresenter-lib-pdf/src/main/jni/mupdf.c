@@ -619,7 +619,7 @@ JNIEXPORT float JNICALL
 JNI_FN(MuPDFCore_getPageWidth)(JNIEnv *env, jobject thiz)
 {
 	globals *glo = get_globals(env, thiz);
-	LOGE("PageWidth=%d", glo->pages[glo->current].width);
+	//LOGE("PageWidth=%d", glo->pages[glo->current].width);
 	return glo->pages[glo->current].width;
 }
 
@@ -627,7 +627,7 @@ JNIEXPORT float JNICALL
 JNI_FN(MuPDFCore_getPageHeight)(JNIEnv *env, jobject thiz)
 {
 	globals *glo = get_globals(env, thiz);
-	LOGE("PageHeight=%d", glo->pages[glo->current].height);
+	//LOGE("PageHeight=%d", glo->pages[glo->current].height);
 	return glo->pages[glo->current].height;
 }
 
@@ -706,8 +706,7 @@ JNI_FN(MuPDFCore_drawPage)(JNIEnv *env, jobject thiz, jobject bitmap,
 	}
 
 	/* Call mupdf to render display list to screen */
-	LOGE("Rendering page(%d)=%dx%d patch=[%d,%d,%d,%d]",
-			pc->number, pageW, pageH, patchX, patchY, patchW, patchH);
+	//LOGE("Rendering page(%d)=%dx%d patch=[%d,%d,%d,%d]",pc->number, pageW, pageH, patchX, patchY, patchW, patchH);
 
 	fz_try(ctx)
 	{
@@ -788,7 +787,7 @@ JNI_FN(MuPDFCore_drawPage)(JNIEnv *env, jobject thiz, jobject bitmap,
 			clock_t time;
 			int i;
 
-			LOGE("Executing display list");
+			//LOGE("Executing display list");
 			time = clock();
 			for (i=0; i<100;i++) {
 #endif
@@ -811,7 +810,7 @@ JNI_FN(MuPDFCore_drawPage)(JNIEnv *env, jobject thiz, jobject bitmap,
 		fz_free_device(dev);
 		dev = NULL;
 		fz_drop_pixmap(ctx, pix);
-		LOGE("Rendered");
+		//LOGE("Rendered");
 	}
 	fz_always(ctx)
 	{
@@ -908,8 +907,7 @@ JNI_FN(MuPDFCore_updatePageInternal)(JNIEnv *env, jobject thiz, jobject bitmap, 
 	}
 
 	/* Call mupdf to render display list to screen */
-	LOGE("Rendering page(%d)=%dx%d patch=[%d,%d,%d,%d]",
-			pc->number, pageW, pageH, patchX, patchY, patchW, patchH);
+	//LOGE("Rendering page(%d)=%dx%d patch=[%d,%d,%d,%d]", pc->number, pageW, pageH, patchX, patchY, patchW, patchH);
 
 	fz_try(ctx)
 	{
@@ -1008,7 +1006,7 @@ JNI_FN(MuPDFCore_updatePageInternal)(JNIEnv *env, jobject thiz, jobject bitmap, 
 		/* Drop the changed rects we've just rendered */
 		drop_changed_rects(ctx, hq ? &pc->hq_changed_rects : &pc->changed_rects);
 
-		LOGE("Rendered");
+		//LOGE("Rendered");
 	}
 	fz_always(ctx)
 	{
