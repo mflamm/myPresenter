@@ -37,10 +37,12 @@
 package de.hska.iam.presentationapp.playlist;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
-public class PlaylistManager implements Iterable<Playlist> {
+public class PlaylistManager {
 
     private final List<Playlist> playlists;
 
@@ -92,9 +94,21 @@ public class PlaylistManager implements Iterable<Playlist> {
         playlists.add(playlist);
     }
 
-    @Override
-    public Iterator<Playlist> iterator() {
-        return playlists.iterator();
+    /**
+     * Returns all playlists.
+     */
+    public List<Playlist> getPlaylists() {
+        return playlists;
     }
 
+    /**
+     * Returns all Playlistnames.
+     */
+    public Set<String> getPlaylistNames() {
+        Set<String> playlistNames = new HashSet<String>();
+        for(Playlist playlist : playlists){
+            playlistNames.add(playlist.getName());
+        }
+        return playlistNames;
+    }
 }
