@@ -58,8 +58,7 @@ public class CachedImageManager {
         CachedImage cachedImageRet = null;
         CachedImage.ImageType imageType = CachedImage.ImageType.THUMBNAIL;
         for (final CachedImage cachedImage : cachedImages.values()) {
-            if (imageType == cachedImage.getImageType() &&
-                mediaFilePath.equals(cachedImage.getMediaFilePath())) {
+            if (imageIsCached(mediaFilePath, cachedImage)) {
                 cachedImageRet = cachedImage;
                 break;
             }
@@ -70,6 +69,11 @@ public class CachedImageManager {
             cachedImages.put(cachedImageRet);
         }
         return cachedImageRet;
+    }
+
+    private boolean imageIsCached(String mediaFilePath, CachedImage cachedImage) {
+        CachedImage.ImageType imageType = CachedImage.ImageType.THUMBNAIL;
+        return imageType == cachedImage.getImageType() && mediaFilePath.equals(cachedImage.getMediaFilePath());
     }
 
     public CachedImage getFullscreenImage(final String mediaFilePath, final int pdfPageNumber) {
