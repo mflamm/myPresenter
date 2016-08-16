@@ -60,7 +60,7 @@ final class PlaylistPreferencesHelper {
     }
 
     public static Set<String> getFilePaths(final Playlist playlist) {
-        Set<String> filePaths = new HashSet<>(playlist.size());
+        Set<String> filePaths = new HashSet<>(playlist.getNumberOfItems());
         for (final Media media : playlist) {
             String absolutePath = media.getAbsolutePath();
             filePaths.add(absolutePath);

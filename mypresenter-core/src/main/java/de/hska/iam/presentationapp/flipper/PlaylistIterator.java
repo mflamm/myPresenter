@@ -62,7 +62,7 @@ class PlaylistIterator {
      */
     public Media peekNext() {
         int nextIndex = position + 1;
-        if (nextIndex > playlist.size() - 1) {
+        if (nextIndex > playlist.getNumberOfItems() - 1) {
             nextIndex = 0;
         }
         return playlist.get(nextIndex);
@@ -79,7 +79,7 @@ class PlaylistIterator {
     public Media peekPrevious() {
         int previousIndex = position - 1;
         if (previousIndex < 0) {
-            previousIndex = playlist.size() - 1;
+            previousIndex = playlist.getNumberOfItems() - 1;
         }
         return playlist.get(previousIndex);
     }
@@ -92,7 +92,7 @@ class PlaylistIterator {
      */
     public Media next() {
         position += 1;
-        if (position > playlist.size() - 1) {
+        if (position > playlist.getNumberOfItems() - 1) {
             position = 0;
         }
         return playlist.get(position);
@@ -107,7 +107,7 @@ class PlaylistIterator {
     public Media previous() {
         position -= 1;
         if (position < 0) {
-            position = playlist.size() - 1;
+            position = playlist.getNumberOfItems() - 1;
         }
         return playlist.get(position);
     }
