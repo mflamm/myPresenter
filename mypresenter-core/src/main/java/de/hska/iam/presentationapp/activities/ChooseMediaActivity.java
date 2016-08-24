@@ -67,6 +67,7 @@ public class ChooseMediaActivity extends FragmentActivity implements FolderListF
     private GridViewFragment gridViewFragment;
     private Uri uri;
 
+
     /*
      *(non-Javadoc)
      *

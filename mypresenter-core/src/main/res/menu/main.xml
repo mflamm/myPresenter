@@ -22,7 +22,7 @@
         android:title="@string/open_with" />
     <item
         android:id="@+id/Share_Menu"
-        android:icon="@drawable/ic_send_white_36dp"
+        android:icon="@drawable/ic_share_white_36dp"
         android:showAsAction="ifRoom|withText"
         android:title="@string/share" />
 </menu>

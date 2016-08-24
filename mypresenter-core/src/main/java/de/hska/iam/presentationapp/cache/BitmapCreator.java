@@ -50,6 +50,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import de.hska.iam.presentationapp.R;
 import de.hska.iam.presentationapp.cache.database.CachedImage;
+import de.hska.iam.presentationapp.cache.database.CachedImage.ImageType;
 import de.hska.iam.presentationapp.media.Media;
 
 import java.lang.ref.WeakReference;
@@ -65,8 +66,8 @@ class BitmapCreator {
     }
 
     public void createThumbnail(final CachedImage cachedImage, final Media media, final ImageView imageView) {
-        Bitmap placeHolder = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
-        createBitmap(cachedImage, media, imageView, placeHolder);
+        //Bitmap placeHolder = BitmapFactory.decodeResource(context.getResources(), R.drawable.seek_progress);
+        createBitmap(cachedImage, media, imageView, null);
     }
 
     public void createFullscreenImage(final CachedImage cachedImage, final Media media, final ImageView imageView) {
@@ -77,10 +78,9 @@ class BitmapCreator {
         if (cancelPotentialWork(cachedImage, imageView)) {
             final BitmapWorkerTask task = new BitmapWorkerTask(imageView, media);
             if (imageView != null) {
-                Resources resources = context.getResources();
                 AsyncDrawable asyncDrawable = null;
                 try {
-                    asyncDrawable = new AsyncDrawable(resources, placeHolder, task);
+                    asyncDrawable = new AsyncDrawable(context.getResources(), placeHolder, task);
                 } catch (final RuntimeException e) {
                     Log.e(getClass().getName(), e.getMessage());
                 }
@@ -142,24 +142,24 @@ class BitmapCreator {
         protected Bitmap doInBackground(final CachedImage... params) {
             cachedImage = params[0];
             Bitmap bitmap = null;
-            CachedImage.ImageType imageType = cachedImage.getImageType();
-            if (imageType == CachedImage.ImageType.THUMBNAIL) {
+            ImageType imageType = cachedImage.getImageType();
+            if (imageType == ImageType.THUMBNAIL) {
                 bitmap = media.createThumbnail();
-            } else if (imageType == CachedImage.ImageType.FULLSCREEN_IMAGE) {
+            } else if (imageType == ImageType.FULLSCREEN_IMAGE) {
                 bitmap = media.createFullscreenImage();
             }
             return bitmap;
         }
 
         @Override
-        protected void onPostExecute(Bitmap result) {
+        protected void onPostExecute(Bitmap bitmap) {
             if (isCancelled()) {
-                result = null;
+                bitmap = null;
             }
 
-            if (result != null) {
-                putBitmapInMemoryCache(result);
-                setImageBitmap(result);
+            if (imageViewReference != null && bitmap != null) {
+                putBitmapInMemoryCache(bitmap);
+                setImageBitmap(bitmap);
             }
         }
 

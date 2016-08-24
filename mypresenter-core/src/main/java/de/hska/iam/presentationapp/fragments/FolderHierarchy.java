@@ -27,6 +27,62 @@
  * <p/>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * @MyPresenter Presentation-App for Android-Devices
+ * @copyright 2014 IMP - Institute of Materials and Processes
+ * University of Applied Sciences
+ * Karlsruhe
+ * @file FolderHierarchy.java
+ * @package de.hska.iam.presentationapp.fragments
+ * @brief Navigates a folder hierarchy.
+ * <p/>
+ * <p/>
+ * *******************************************************************
+ * @lastmodified 19.05.2015 Markus Maier
+ * <p/>
+ * *******************************************************************
+ * <p/>
+ * LICENSE:
+ * <p/>
+ * MyPresenter is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * <p/>
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * <p/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * @MyPresenter Presentation-App for Android-Devices
+ * @copyright 2014 IMP - Institute of Materials and Processes
+ * University of Applied Sciences
+ * Karlsruhe
+ * @file FolderHierarchy.java
+ * @package de.hska.iam.presentationapp.fragments
+ * @brief Navigates a folder hierarchy.
+ * <p/>
+ * <p/>
+ * *******************************************************************
+ * @lastmodified 19.05.2015 Markus Maier
+ * <p/>
+ * *******************************************************************
+ * <p/>
+ * LICENSE:
+ * <p/>
+ * MyPresenter is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * <p/>
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * <p/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  ********************************************************************//**
  *
  *  @MyPresenter Presentation-App for Android-Devices
@@ -114,8 +170,7 @@ public class FolderHierarchy {
 
         List<String> directories = dir();
         if (directories.contains(folderName)) {
-            String currentPath = current.getAbsolutePath();
-            current = new File(currentPath + File.separator + folderName);
+            current = new File(getCurrentPath() + File.separator + folderName);
         }
     }
 
@@ -130,16 +185,18 @@ public class FolderHierarchy {
 
         if (!current.equals(root)) {
             String absolutPath = current.getAbsolutePath();
-            String currentDirectory = absolutPath.replace(root.toString(),"");
+            String currentDirectory = absolutPath.replace(root.toString(), "");
             directories.add("< " + currentDirectory);
         }
 
-        if(dirs.length > 0){
-            directories.addAll(Arrays.asList(dirs));
+        if (dirs != null) {
+            for (String directory : dirs) {
+                directories.add(directory);
+            }
         }
 
-    return directories;
-}
+        return directories;
+    }
 
     /**
      * Checks if the current directory is the root directory.
@@ -150,12 +207,12 @@ public class FolderHierarchy {
         return root.equals(current);
     }
 
-private static class DirectoryFilter implements FilenameFilter {
-    @Override
-    public boolean accept(final File dir, final String filename) {
-        File file = new File(dir, filename);
-        return file.isDirectory();
+    private static class DirectoryFilter implements FilenameFilter {
+        @Override
+        public boolean accept(final File dir, final String filename) {
+            File file = new File(dir, filename);
+            return file.isDirectory();
+        }
     }
-}
 
 }

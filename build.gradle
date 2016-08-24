@@ -10,7 +10,7 @@ buildscript {
 
     dependencies {
         // gradle plugin for android
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.android.tools.build:gradle:2.1.3'
     }
 }
 

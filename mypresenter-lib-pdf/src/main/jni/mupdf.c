@@ -132,7 +132,7 @@ static void drop_page_cache(globals *glo, page_cache *pc)
 	fz_context *ctx = glo->ctx;
 	fz_document *doc = glo->doc;
 
-	LOGI("Drop page %d", pc->number);
+	//LOGI("Drop page %d", pc->number);
 	fz_drop_display_list(ctx, pc->page_list);
 	pc->page_list = NULL;
 	fz_drop_display_list(ctx, pc->annot_list);
@@ -159,7 +159,7 @@ static void show_alert(globals *glo, pdf_alert_event *alert)
 	pthread_mutex_lock(&glo->fin_lock2);
 	pthread_mutex_lock(&glo->alert_lock);
 
-	LOGT("Enter show_alert: %s", alert->title);
+	//LOGT("Enter show_alert: %s", alert->title);
 	alert->button_pressed = 0;
 
 	if (glo->alerts_active)
@@ -174,7 +174,7 @@ static void show_alert(globals *glo, pdf_alert_event *alert)
 		glo->current_alert = NULL;
 	}
 
-	LOGT("Exit show_alert");
+	//LOGT("Exit show_alert");
 
 	pthread_mutex_unlock(&glo->alert_lock);
 	pthread_mutex_unlock(&glo->fin_lock2);
@@ -212,7 +212,7 @@ static void alerts_init(globals *glo)
 	pthread_cond_init(&glo->alert_reply_cond, NULL);
 
 	pdf_set_doc_event_callback(idoc, event_cb, glo);
-	LOGT("alert_init");
+	//sniLOGT("alert_init");
 	glo->alerts_initialised = 1;
 }
 
@@ -222,7 +222,7 @@ static void alerts_fin(globals *glo)
 	if (!glo->alerts_initialised)
 		return;
 
-	LOGT("Enter alerts_fin");
+	//LOGT("Enter alerts_fin");
 	if (idoc)
 		pdf_set_doc_event_callback(idoc, NULL, NULL);
 
@@ -245,7 +245,7 @@ static void alerts_fin(globals *glo)
 	pthread_mutex_destroy(&glo->alert_lock);
 	pthread_mutex_destroy(&glo->fin_lock2);
 	pthread_mutex_destroy(&glo->fin_lock);
-	LOGT("Exit alerts_fin");
+	//LOGT("Exit alerts_fin");
 	glo->alerts_initialised = 0;
 }
 
@@ -314,7 +314,7 @@ JNI_FN(MuPDFCore_openFile)(JNIEnv * env, jobject thiz, jstring jfilename)
 	{
 		glo->colorspace = fz_device_rgb(ctx);
 
-		LOGE("Opening document...");
+		//LOGE("Opening document...");
 		fz_try(ctx)
 		{
 			glo->current_path = fz_strdup(ctx, (char *)filename);
@@ -325,7 +325,7 @@ JNI_FN(MuPDFCore_openFile)(JNIEnv * env, jobject thiz, jstring jfilename)
 		{
 			fz_throw(ctx, FZ_ERROR_GENERIC, "Cannot open document: '%s'", filename);
 		}
-		LOGE("Done!");
+		//LOGE("Done!");
 	}
 	fz_catch(ctx)
 	{
@@ -464,7 +464,7 @@ JNI_FN(MuPDFCore_openBuffer)(JNIEnv * env, jobject thiz, jstring jmagic)
 
 		glo->colorspace = fz_device_rgb(ctx);
 
-		LOGE("Opening document...");
+		//LOGE("Opening document...");
 		fz_try(ctx)
 		{
 			glo->current_path = NULL;
@@ -475,7 +475,7 @@ JNI_FN(MuPDFCore_openBuffer)(JNIEnv * env, jobject thiz, jstring jmagic)
 		{
 			fz_throw(ctx, FZ_ERROR_GENERIC, "Cannot open memory document");
 		}
-		LOGE("Done!");
+		//LOGE("Done!");
 	}
 	fz_always(ctx)
 	{
@@ -595,11 +595,11 @@ JNI_FN(MuPDFCore_gotoPageInternal)(JNIEnv *env, jobject thiz, int page)
 	pc->height = 100;
 
 	pc->number = page;
-	LOGE("Goto page %d...", page);
+	//LOGE("Goto page %d...", page);
 	fz_try(ctx)
 	{
 		fz_rect rect;
-		LOGI("Load page %d", pc->number);
+		//LOGI("Load page %d", pc->number);
 		pc->page = fz_load_page(glo->doc, pc->number);
 		zoom = glo->resolution / 72;
 		fz_bound_page(glo->doc, pc->page, &pc->media_box);
@@ -619,7 +619,7 @@ JNIEXPORT float JNICALL
 JNI_FN(MuPDFCore_getPageWidth)(JNIEnv *env, jobject thiz)
 {
 	globals *glo = get_globals(env, thiz);
-	LOGE("PageWidth=%d", glo->pages[glo->current].width);
+	//LOGE("PageWidth=%d", glo->pages[glo->current].width);
 	return glo->pages[glo->current].width;
 }
 
@@ -627,7 +627,7 @@ JNIEXPORT float JNICALL
 JNI_FN(MuPDFCore_getPageHeight)(JNIEnv *env, jobject thiz)
 {
 	globals *glo = get_globals(env, thiz);
-	LOGE("PageHeight=%d", glo->pages[glo->current].height);
+	//LOGE("PageHeight=%d", glo->pages[glo->current].height);
 	return glo->pages[glo->current].height;
 }
 
@@ -687,27 +687,26 @@ JNI_FN(MuPDFCore_drawPage)(JNIEnv *env, jobject thiz, jobject bitmap,
 	fz_var(pix);
 	fz_var(dev);
 
-	LOGI("In native method\n");
+	//LOGI("In native method\n");
 	if ((ret = AndroidBitmap_getInfo(env, bitmap, &info)) < 0) {
 		LOGE("AndroidBitmap_getInfo() failed ! error=%d", ret);
 		return 0;
 	}
 
-	LOGI("Checking format\n");
+	//LOGI("Checking format\n");
 	if (info.format != ANDROID_BITMAP_FORMAT_RGBA_8888) {
 		LOGE("Bitmap format is not RGBA_8888 !");
 		return 0;
 	}
 
-	LOGI("locking pixels\n");
+	//LOGI("locking pixels\n");
 	if ((ret = AndroidBitmap_lockPixels(env, bitmap, &pixels)) < 0) {
 		LOGE("AndroidBitmap_lockPixels() failed ! error=%d", ret);
 		return 0;
 	}
 
 	/* Call mupdf to render display list to screen */
-	LOGE("Rendering page(%d)=%dx%d patch=[%d,%d,%d,%d]",
-			pc->number, pageW, pageH, patchX, patchY, patchW, patchH);
+	//LOGE("Rendering page(%d)=%dx%d patch=[%d,%d,%d,%d]",pc->number, pageW, pageH, patchX, patchY, patchW, patchH);
 
 	fz_try(ctx)
 	{
@@ -788,7 +787,7 @@ JNI_FN(MuPDFCore_drawPage)(JNIEnv *env, jobject thiz, jobject bitmap,
 			clock_t time;
 			int i;
 
-			LOGE("Executing display list");
+			//LOGE("Executing display list");
 			time = clock();
 			for (i=0; i<100;i++) {
 #endif
@@ -811,7 +810,7 @@ JNI_FN(MuPDFCore_drawPage)(JNIEnv *env, jobject thiz, jobject bitmap,
 		fz_free_device(dev);
 		dev = NULL;
 		fz_drop_pixmap(ctx, pix);
-		LOGE("Rendered");
+		//LOGE("Rendered");
 	}
 	fz_always(ctx)
 	{
@@ -908,8 +907,7 @@ JNI_FN(MuPDFCore_updatePageInternal)(JNIEnv *env, jobject thiz, jobject bitmap, 
 	}
 
 	/* Call mupdf to render display list to screen */
-	LOGE("Rendering page(%d)=%dx%d patch=[%d,%d,%d,%d]",
-			pc->number, pageW, pageH, patchX, patchY, patchW, patchH);
+	//LOGE("Rendering page(%d)=%dx%d patch=[%d,%d,%d,%d]", pc->number, pageW, pageH, patchX, patchY, patchW, patchH);
 
 	fz_try(ctx)
 	{
@@ -1008,7 +1006,7 @@ JNI_FN(MuPDFCore_updatePageInternal)(JNIEnv *env, jobject thiz, jobject bitmap, 
 		/* Drop the changed rects we've just rendered */
 		drop_changed_rects(ctx, hq ? &pc->hq_changed_rects : &pc->changed_rects);
 
-		LOGE("Rendered");
+		//LOGE("Rendered");
 	}
 	fz_always(ctx)
 	{

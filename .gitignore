@@ -3,6 +3,7 @@ bin/
 gen/
 obj/
 gen-external-apklibs/
+doc/
 
 # Local configuration files (sdk path, sdk version, etc)
 local.properties
