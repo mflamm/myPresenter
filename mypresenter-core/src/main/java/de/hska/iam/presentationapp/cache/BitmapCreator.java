@@ -65,7 +65,7 @@ class BitmapCreator {
     }
 
     public void createThumbnail(final CachedImage cachedImage, final Media media, final ImageView imageView) {
-        Bitmap placeHolder = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
+        Bitmap placeHolder = BitmapFactory.decodeResource(context.getResources(), R.drawable.seek_progress);
         createBitmap(cachedImage, media, imageView, placeHolder);
     }
 
