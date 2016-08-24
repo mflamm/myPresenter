@@ -38,74 +38,87 @@ package de.hska.iam.presentationapp.cache.database;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 import java.io.File;
+import java.util.ArrayList;
+
+import de.hska.iam.presentationapp.cache.database.CachedImage.ImageType;
 
 public class CachedImageManager {
 
     private final CachedImageDao dao;
-    private final CachedImages cachedImages;
+    private final ImageCache imageCache;
     private final Handler workerHandler;
 
     public CachedImageManager(final Context context) {
         dao = new CachedImageDao(context);
-        cachedImages = new CachedImages();
+        imageCache = new ImageCache();
         workerHandler = new Handler();
         populate();
     }
 
+    /**
+     *
+     * @param mediaFilePath
+     * @return Thumbnailbild
+     */
     public CachedImage getThumbnail(final String mediaFilePath) {
-        CachedImage cachedImageRet = null;
-        CachedImage.ImageType imageType = CachedImage.ImageType.THUMBNAIL;
-        for (final CachedImage cachedImage : cachedImages.values()) {
-            if (imageIsCached(mediaFilePath, cachedImage)) {
-                cachedImageRet = cachedImage;
-                break;
-            }
-        }
-        if (cachedImageRet == null) {
-            int pdfPageNumber = -1;
-            cachedImageRet = dao.create(imageType, mediaFilePath, pdfPageNumber);
-            cachedImages.put(cachedImageRet);
-        }
-        return cachedImageRet;
+        ImageType imageType = ImageType.THUMBNAIL;
+        return getCachedImage(mediaFilePath, imageType);
     }
 
-    private boolean imageIsCached(String mediaFilePath, CachedImage cachedImage) {
-        CachedImage.ImageType imageType = CachedImage.ImageType.THUMBNAIL;
-        return imageType == cachedImage.getImageType() && mediaFilePath.equals(cachedImage.getMediaFilePath());
+    /**
+     *
+     * @param mediaFilePath
+     * @param imageType
+     * @return das Bild aus dem Cache. Falls Bild nicht im Cache vorhanden ist, wird es hinzugefügt und zurück gegeben.
+     */
+    private CachedImage getCachedImage(String mediaFilePath, ImageType imageType) {
+        ArrayList<Long> possibleIds = imageCache.getIdsByMediaFilePath(mediaFilePath);
+        for (Long id : possibleIds) {
+            CachedImage currentImage = imageCache.get(id);
+            if (currentImage.getImageType() == imageType) {
+                Log.i("CachedImageManager", "possibleIds HIT ID: " + id);
+                return currentImage;
+            }
+        }
+        int pdfPageNumber = -1;
+        CachedImage newlyCachedImage = addImageToCache(mediaFilePath, imageType, pdfPageNumber);
+        imageCache.put(newlyCachedImage);
+        return newlyCachedImage;
+    }
+
+    private CachedImage addImageToCache(String mediaFilePath, ImageType imageType, int pdfPageNumber) {
+        return dao.create(imageType, mediaFilePath, pdfPageNumber);
     }
 
     public CachedImage getFullscreenImage(final String mediaFilePath, final int pdfPageNumber) {
-        CachedImage cachedImageRet = null;
-        CachedImage.ImageType imageType = CachedImage.ImageType.FULLSCREEN_IMAGE;
-        for (final CachedImage cachedImage : cachedImages.values()) {
+        ImageType imageType = ImageType.FULLSCREEN_IMAGE;
+        for (final CachedImage cachedImage : imageCache.getAll()) {
             if (imageType == cachedImage.getImageType() &&
-                pdfPageNumber == cachedImage.getPdfPageNumber() &&
-                mediaFilePath.equals(cachedImage.getMediaFilePath())) {
-                cachedImageRet = cachedImage;
-                break;
+                    pdfPageNumber == cachedImage.getPdfPageNumber() &&
+                    mediaFilePath.equals(cachedImage.getMediaFilePath())) {
+                return cachedImage;
             }
         }
-        if (cachedImageRet == null) {
-            cachedImageRet = dao.create(imageType, mediaFilePath, pdfPageNumber);
-            cachedImages.put(cachedImageRet);
-        }
-        return cachedImageRet;
+        CachedImage newlyCachedImage = addImageToCache(mediaFilePath, imageType, pdfPageNumber);
+        imageCache.put(newlyCachedImage);
+        return newlyCachedImage;
     }
 
     public CachedImage get(final long id) {
-        return cachedImages.get(id);
+        return imageCache.get(id);
     }
 
     public void update(final CachedImage cachedImage) {
         dao.update(cachedImage);
-        cachedImages.put(cachedImage);
+        imageCache.put(cachedImage);
     }
 
     public void remove(final CachedImage cachedImage) {
         dao.delete(cachedImage);
-        cachedImages.remove(cachedImage);
+        imageCache.remove(cachedImage);
         deleteFile(cachedImage.getImageFilePath());
     }
 
@@ -122,13 +135,13 @@ public class CachedImageManager {
     private void populate() {
         for (final CachedImage cachedImage : dao.getAll()) {
             if (isValid(cachedImage)) {
-                cachedImages.put(cachedImage);
+                imageCache.put(cachedImage);
             }
         }
     }
 
     private boolean isValid(final CachedImage cachedImage) {
-       boolean valid = true;
+        boolean valid = true;
         if (!isMediaFileValid(cachedImage)) {
             remove(cachedImage);
             valid = false;
