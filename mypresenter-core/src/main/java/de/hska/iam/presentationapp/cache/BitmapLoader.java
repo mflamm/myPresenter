@@ -60,7 +60,7 @@ class BitmapLoader {
 
     public void loadThumbnail(final CachedImage cachedImage, final ImageView imageView) {
         Bitmap placeHolder = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
-        loadBitmap(cachedImage, imageView, placeHolder);
+        loadBitmap(cachedImage, imageView, null);
     }
 
     public void loadFullscreenImage(final CachedImage cachedImage, final ImageView imageView) {

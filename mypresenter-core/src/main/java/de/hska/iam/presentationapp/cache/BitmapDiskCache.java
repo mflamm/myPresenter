@@ -95,7 +95,7 @@ public class BitmapDiskCache {
     public static boolean contains(final CachedImage cachedImage) {
         // If an image file path is set then the
         // bitmap file was written to disk
-        return !cachedImage.getImageFilePath().isEmpty();
+        return (cachedImage != null && !cachedImage.getImageFilePath().isEmpty());
     }
 
     public void put(final Long id, final Bitmap bitmap) {
