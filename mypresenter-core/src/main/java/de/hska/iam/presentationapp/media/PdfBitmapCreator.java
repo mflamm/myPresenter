@@ -68,11 +68,13 @@ final class PdfBitmapCreator {
 
     private static void drawPdfIcon(final Context context, final Bitmap bitmap) {
         Bitmap pdfIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.pdf_document_icon_96);
-        Rect src = new Rect(0, 0, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
-        Rect dst = new Rect(100, 100, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
-
         Canvas canvas = new Canvas(bitmap);
-        canvas.drawBitmap(pdfIcon, src, dst, null);
+        int left = THUMBNAIL_SIZE - THUMBNAIL_SIZE / 6;
+        int top = THUMBNAIL_SIZE - THUMBNAIL_SIZE / 6;
+        int right = left + THUMBNAIL_SIZE / 8;
+        int bottom = top + THUMBNAIL_SIZE / 8;
+        Rect rectangle = new Rect(left, top, right, bottom);
+        canvas.drawBitmap(pdfIcon, null, rectangle, null);
     }
 
     private static Bitmap createBitmapCanvas(final int width, final int height) {
