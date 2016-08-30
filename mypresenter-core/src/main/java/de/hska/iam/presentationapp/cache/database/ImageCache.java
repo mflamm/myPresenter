@@ -93,6 +93,7 @@
 
 package de.hska.iam.presentationapp.cache.database;
 
+import android.content.ContentProviderOperation;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -130,22 +131,21 @@ class ImageCache {
     }
 
     public void put(final CachedImage cachedImage) {
-        //Log.i("IMAGE CACHE", "put() - " + cachedImage.getMediaFilePath());
         long id = cachedImage.getId();
         String mediaFilePath = cachedImage.getMediaFilePath();
-
         //Putting Image into Cache
         cachedImages.put(id, cachedImage);
 
         ArrayList<Long> cachedEntrysForMediaPath = mediaPathToIdHint.get(mediaFilePath);
         if (cachedEntrysForMediaPath != null && !cachedEntrysForMediaPath.contains(id)) {
-            Log.i("CacheHint", "Possible Hit Count: " + cachedEntrysForMediaPath.size());
             cachedEntrysForMediaPath.add(id);
             mediaPathToIdHint.put(mediaFilePath, cachedEntrysForMediaPath);
-        } else {
+            Log.i("IMAGE CACHE", cachedEntrysForMediaPath.size() + " Hits: put() Hint in List - " + cachedImage.getMediaFilePath());
+        } else if (cachedEntrysForMediaPath == null) {
             cachedEntrysForMediaPath = new ArrayList<>();
             cachedEntrysForMediaPath.add(id);
             mediaPathToIdHint.put(mediaFilePath, cachedEntrysForMediaPath);
+            Log.i("IMAGE CACHE", "No Hints: put() new List - " + cachedImage.getMediaFilePath());
         }
 
         if (id % 20 == 0) {

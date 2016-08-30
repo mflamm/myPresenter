@@ -111,8 +111,7 @@ public class BitmapDiskCache {
 
     private class FileCreatorTask extends AsyncTask<Void, Void, File> {
 
-        private final CachedImage cachedImage
-            ;
+        private final CachedImage cachedImage;
         private final Bitmap bitmap;
 
         FileCreatorTask(final CachedImage cachedImage, final Bitmap bitmap) {
