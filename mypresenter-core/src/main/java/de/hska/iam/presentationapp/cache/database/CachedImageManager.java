@@ -92,13 +92,9 @@ public class CachedImageManager {
                 return possibleImage;
             }
         }
-        CachedImage newlyCachedImage = addImageToCache(mediaFilePath, imageType, pdfPageNumber);
+        CachedImage newlyCachedImage = dao.create(imageType, mediaFilePath, pdfPageNumber);
         imageCache.put(newlyCachedImage);
         return newlyCachedImage;
-    }
-
-    private CachedImage addImageToCache(String mediaFilePath, ImageType imageType, int pdfPageNumber) {
-        return dao.create(imageType, mediaFilePath, pdfPageNumber);
     }
 
     public CachedImage getFullscreenImage(final String mediaFilePath, final int pdfPageNumber) {
