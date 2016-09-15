@@ -41,6 +41,8 @@ import android.os.Handler;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import de.hska.iam.presentationapp.cache.database.CachedImage.ImageType;
