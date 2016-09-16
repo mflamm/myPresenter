@@ -66,7 +66,6 @@ public class CachedImageManager {
      * @return Thumbnailbild
      */
     public CachedImage getThumbnail(final String mediaFilePath) {
-        Log.i("CachedImageManager", "getThumbnail() got called");
         ImageType imageType = ImageType.THUMBNAIL;
         return getCachedImage(mediaFilePath, imageType, -1);
     }
@@ -79,18 +78,11 @@ public class CachedImageManager {
      */
     private CachedImage getCachedImage(String mediaFilePath, ImageType imageType, int pdfPageNumber) {
         ArrayList<Long> possibleIds = imageCache.getIdsByMediaFilePath(mediaFilePath);
-        Log.i("CachedImageManager", "possibleIds Count: " + possibleIds.size());
         int rounds = 0;
         for (Long id : possibleIds) {
             rounds++;
             CachedImage possibleImage = imageCache.get(id);
             if (possibleImage.getImageType() == imageType && possibleImage.getPdfPageNumber() == pdfPageNumber) {
-                if(possibleImage.getImageType() == ImageType.THUMBNAIL ){
-                    Log.i("CachedImageManager", "Thumbnail ID: " + possibleImage.getId() + " found after " + rounds + " rounds");
-                }
-                else {
-                    Log.i("CachedImageManager", "Fullscreen Image ID: " + possibleImage.getId() + " found after " + rounds + " rounds");
-                }
                 return possibleImage;
             }
         }
@@ -100,24 +92,8 @@ public class CachedImageManager {
     }
 
     public CachedImage getFullscreenImage(final String mediaFilePath, final int pdfPageNumber) {
-        Log.i("CachedImageManager", "getFullscreenImage() got called");
         ImageType imageType = ImageType.FULLSCREEN_IMAGE;
         return getCachedImage(mediaFilePath, imageType, pdfPageNumber);
-
-
-        /*int rounds = 0;
-        for (final CachedImage cachedImage : imageCache.getAll()) {
-            rounds++;
-            if (imageType == cachedImage.getImageType() &&
-                    pdfPageNumber == cachedImage.getPdfPageNumber() &&
-                    mediaFilePath.equals(cachedImage.getMediaFilePath())) {
-                Log.i("CachedImageManager", "FullscreenImage ID: " + cachedImage.getId() + " found after " + rounds + " rounds");
-                return cachedImage;
-            }
-        }
-        CachedImage newlyCachedImage = addImageToCache(mediaFilePath, imageType, pdfPageNumber);
-        imageCache.put(newlyCachedImage);
-        return newlyCachedImage;*/
     }
 
     public CachedImage get(final long id) {
@@ -146,7 +122,6 @@ public class CachedImageManager {
     }
 
     private void populate() {
-        Log.i("CachedImageManager", "populate() at first Start");
         for (final CachedImage cachedImage : dao.getAll()) {
             if (isValid(cachedImage)) {
                 imageCache.put(cachedImage);
@@ -174,5 +149,4 @@ public class CachedImageManager {
         File imageFile = new File(cachedImage.getImageFilePath());
         return imageFile.exists();
     }
-
 }

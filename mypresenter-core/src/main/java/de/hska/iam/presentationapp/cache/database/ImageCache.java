@@ -122,10 +122,8 @@ class ImageCache {
         if (mediaPathToIdHint.containsKey(mediaFilePath)) {
             //Log.i("IMAGE CACHE", "mediaPathToIdHint HIT");
             ArrayList<Long> possibleCacheHits = mediaPathToIdHint.get(mediaFilePath);
-            Log.i("IMAGE CACHE", "CacheHint HIT Count - " + possibleCacheHits.size());
             return possibleCacheHits;
         } else {
-            Log.i("IMAGE CACHE", "CacheHint NO HIT");
             return new ArrayList<>();
         }
     }
@@ -140,34 +138,22 @@ class ImageCache {
         if (cachedEntrysForMediaPath != null && !cachedEntrysForMediaPath.contains(id)) {
             cachedEntrysForMediaPath.add(id);
             mediaPathToIdHint.put(mediaFilePath, cachedEntrysForMediaPath);
-            Log.i("IMAGE CACHE", cachedEntrysForMediaPath.size() + " Hits: put() Hint in List - " + cachedImage.getMediaFilePath());
         } else if (cachedEntrysForMediaPath == null) {
             cachedEntrysForMediaPath = new ArrayList<>();
             cachedEntrysForMediaPath.add(id);
             mediaPathToIdHint.put(mediaFilePath, cachedEntrysForMediaPath);
-            Log.i("IMAGE CACHE", "No Hints: put() new List - " + cachedImage.getMediaFilePath());
-        }
-
-        if (id % 20 == 0) {
-            Integer size = cachedImages.size();
-            Log.i("Image Cache", "Number of cached images: " + size.toString());
         }
     }
 
     public void remove(final CachedImage cachedImage) {
         long id = cachedImage.getId();
-        Log.i("Cache", "ID: " + id + "File: " + cachedImage.getMediaFilePath() + " - deleted");
         synchronized (this) {
             cachedImages.remove(id);
 
             ArrayList<Long> possibleEntrys = mediaPathToIdHint.get(cachedImage.getMediaFilePath());
             if (possibleEntrys != null) {
-                Log.i("IMAGE CACHE", "Cache Hint remove() - Hit Count: " + possibleEntrys.size());
-                Log.i("IMAGE CACHE", "Cache Hint remove() - ID: " + id + "File: " + cachedImage.getMediaFilePath() + " - deleted");
                 possibleEntrys.remove(possibleEntrys.indexOf(cachedImage.getId()));
                 mediaPathToIdHint.put(cachedImage.getMediaFilePath(), possibleEntrys);
-            } else {
-                Log.i("IMAGE CACHE", "remove(), possibleEntrys empty");
             }
         }
     }
