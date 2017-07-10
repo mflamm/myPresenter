@@ -1,8 +1,8 @@
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gridview_imageview"
-        android:layout_width="87dp"
-        android:layout_height="87dp"
-        android:padding="3dp"
+        android:layout_width="195dp"
+        android:layout_height="195dp"
+        android:padding="5dp"
         android:scaleType="centerCrop"
         android:contentDescription="Thumbnail of media file." >
 

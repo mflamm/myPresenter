@@ -1,14 +1,99 @@
-/********************************************************************//**
+/**
+ * @MyPresenter Presentation-App for Android-Devices
+ * @copyright 2014 IMP - Institute of Materials and Processes
+ * University of Applied Sciences
+ * Karlsruhe
+ * @file FolderHierarchy.java
+ * @package de.hska.iam.presentationapp.fragments
+ * @brief Navigates a folder hierarchy.
+ * <p/>
+ * <p/>
+ * *******************************************************************
+ * @lastmodified 19.05.2015 Markus Maier
+ * <p/>
+ * *******************************************************************
+ * <p/>
+ * LICENSE:
+ * <p/>
+ * MyPresenter is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * <p/>
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * <p/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * @MyPresenter Presentation-App for Android-Devices
+ * @copyright 2014 IMP - Institute of Materials and Processes
+ * University of Applied Sciences
+ * Karlsruhe
+ * @file FolderHierarchy.java
+ * @package de.hska.iam.presentationapp.fragments
+ * @brief Navigates a folder hierarchy.
+ * <p/>
+ * <p/>
+ * *******************************************************************
+ * @lastmodified 19.05.2015 Markus Maier
+ * <p/>
+ * *******************************************************************
+ * <p/>
+ * LICENSE:
+ * <p/>
+ * MyPresenter is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * <p/>
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * <p/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * @MyPresenter Presentation-App for Android-Devices
+ * @copyright 2014 IMP - Institute of Materials and Processes
+ * University of Applied Sciences
+ * Karlsruhe
+ * @file FolderHierarchy.java
+ * @package de.hska.iam.presentationapp.fragments
+ * @brief Navigates a folder hierarchy.
+ * <p/>
+ * <p/>
+ * *******************************************************************
+ * @lastmodified 19.05.2015 Markus Maier
+ * <p/>
+ * *******************************************************************
+ * <p/>
+ * LICENSE:
+ * <p/>
+ * MyPresenter is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * <p/>
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * <p/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ ********************************************************************//**
  *
- *  @MyPresenter     Presentation-App for Android-Devices
+ *  @MyPresenter Presentation-App for Android-Devices
  *
- *  @copyright  2014 IMP - Institute of Materials and Processes
+ *  @copyright 2014 IMP - Institute of Materials and Processes
  *                   University of Applied Sciences
  *                   Karlsruhe
  *
- *  @file       FolderHierarchy.java
- *  @package	de.hska.iam.presentationapp.fragments
- *  @brief      Navigates a folder hierarchy.
+ *  @file FolderHierarchy.java
+ *  @package de.hska.iam.presentationapp.fragments
+ *  @brief Navigates a folder hierarchy.
  *
  *
  ********************************************************************
@@ -36,8 +121,11 @@
 
 package de.hska.iam.presentationapp.fragments;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,7 +137,7 @@ public class FolderHierarchy {
 
     FolderHierarchy(final String path) {
         current = new File(path);
-        root = current;
+        root = current.getParentFile();
     }
 
     /**
@@ -82,8 +170,7 @@ public class FolderHierarchy {
 
         List<String> directories = dir();
         if (directories.contains(folderName)) {
-            String currentPath = current.getAbsolutePath();
-            current = new File(currentPath + File.separator + folderName);
+            current = new File(getCurrentPath() + File.separator + folderName);
         }
     }
 
@@ -94,13 +181,19 @@ public class FolderHierarchy {
      */
     public List<String> dir() {
         String[] dirs = current.list(new DirectoryFilter());
-        List<String> directories = new ArrayList<>(dirs.length);
+        List<String> directories = new ArrayList<>();
 
         if (!current.equals(root)) {
-            directories.add("< " + current.getAbsolutePath());
+            String absolutPath = current.getAbsolutePath();
+            String currentDirectory = absolutPath.replace(root.toString(), "");
+            directories.add("< " + currentDirectory);
         }
 
-        directories.addAll(Arrays.asList(dirs));
+        if (dirs != null) {
+            for (String directory : dirs) {
+                directories.add(directory);
+            }
+        }
 
         return directories;
     }

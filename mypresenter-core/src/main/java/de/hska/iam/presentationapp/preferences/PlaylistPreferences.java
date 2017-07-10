@@ -42,6 +42,7 @@ import de.hska.iam.presentationapp.playlist.Playlist;
 import de.hska.iam.presentationapp.playlist.PlaylistManager;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class PlaylistPreferences extends Preferences {
@@ -66,15 +67,16 @@ public class PlaylistPreferences extends Preferences {
         editor.apply();
     }
 
-    public void savePlaylists(final PlaylistManager playlistManager) {
-        savePlaylistNames(playlistManager);
-        for (final Playlist playlist : playlistManager) {
+    public void savePlaylists(final PlaylistManager playListManager) {
+        savePlaylistNames(playListManager);
+        List<Playlist> playlists = playListManager.getPlaylists();
+        for (final Playlist playlist : playlists) {
             savePlaylist(playlist);
         }
     }
 
     private void savePlaylistNames(final PlaylistManager playlistManager) {
-        Set<String> playlistNames = PlaylistPreferencesHelper.getPlaylistNames(playlistManager);
+        Set<String> playlistNames = playlistManager.getPlaylistNames();
         SharedPreferences.Editor editor = getEditor();
         editor.putStringSet(PLAYLISTS, playlistNames);
         editor.apply();

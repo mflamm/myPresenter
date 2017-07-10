@@ -1,14 +1,43 @@
-/********************************************************************//**
+/**
+ * @MyPresenter Presentation-App for Android-Devices
+ * @copyright 2014 IMP - Institute of Materials and Processes
+ * University of Applied Sciences
+ * Karlsruhe
+ * @file PlaylistManager.java
+ * @package de.hska.iam.presentationapp.playlist
+ * @brief Manages playlists of media files.
+ * <p/>
+ * <p/>
+ * *******************************************************************
+ * @lastmodified 29.05.2015 Markus Maier
+ * <p/>
+ * *******************************************************************
+ * <p/>
+ * LICENSE:
+ * <p/>
+ * MyPresenter is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * <p/>
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * <p/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ ********************************************************************//**
  *
- *  @MyPresenter     Presentation-App for Android-Devices
+ *  @MyPresenter Presentation-App for Android-Devices
  *
- *  @copyright  2014 IMP - Institute of Materials and Processes
+ *  @copyright 2014 IMP - Institute of Materials and Processes
  *                   University of Applied Sciences
  *                   Karlsruhe
  *
- *  @file       PlaylistManager.java
- *  @package	de.hska.iam.presentationapp.playlist
- *  @brief      Manages playlists of media files.
+ *  @file PlaylistManager.java
+ *  @package de.hska.iam.presentationapp.playlist
+ *  @brief Manages playlists of media files.
  *
  *
  ********************************************************************
@@ -37,10 +66,12 @@
 package de.hska.iam.presentationapp.playlist;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
-public class PlaylistManager implements Iterable<Playlist> {
+public class PlaylistManager {
 
     private final List<Playlist> playlists;
 
@@ -92,9 +123,21 @@ public class PlaylistManager implements Iterable<Playlist> {
         playlists.add(playlist);
     }
 
-    @Override
-    public Iterator<Playlist> iterator() {
-        return playlists.iterator();
+    /**
+     * Returns all playlists.
+     */
+    public List<Playlist> getPlaylists() {
+        return playlists;
     }
 
+    /**
+     * Returns all Playlistnames.
+     */
+    public Set<String> getPlaylistNames() {
+        Set<String> playlistNames = new HashSet<String>();
+        for(Playlist playlist : playlists){
+            playlistNames.add(playlist.getName());
+        }
+        return playlistNames;
+    }
 }

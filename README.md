@@ -34,8 +34,8 @@ Linux:
 **1. Install the following packages with the Android SDK Manager**
 
 * `Tools/Android SDK Tools`
-* `Tools/Android SDK Platform-tools Rev. 22`
-* `Tools/Android SDK Build-tools Rev. 22`
+* `Tools/Android SDK Platform-tools Rev. 24`
+* `Tools/Android SDK Build-tools Rev. 24`
 * `Android 5.1 (API 22)`
 * `Extras/Android Support Repository`
 * `Extras/Android Support Library`
@@ -120,17 +120,13 @@ Flags:
 -v : verbose output
 -c : confirm the alignment of the given file
 
-## Android Studio / Intellij IDEA ##
+## Android Studio ##
 
 **Installation**
 
 Android Studio:
 
-Install Android Studio from [here](https://developer.android.com/sdk/index.html#Other). You need to `download` the `ide without sdk tools`.
-
-Intellij IDEA:
-
-Install the Intellij IDEA Community Edition from [here](http://http://www.jetbrains.com/idea/download).
+Install Android Studio from [here](https://developer.android.com/studio/index.html#Other). You need to `download` the `ide without sdk tools`.
 
 **Plugins**
 
@@ -138,37 +134,3 @@ Git:
 
   * For git support you need to download [git](http://www.git-scm.com/downloads). The bundled git plugin of Android Studio is only a graphical frontend and won't work without the underlying command line tool.
   * After the download open Android Studio, go to the preferences page of the git plugin and set the path to the git executable.
-
-## Eclipse ##
-
-**!!! Warning !!!**
-
-As of the 8th december 2014 the android plugin for Eclipse, the ADT Plugin, is no longer actively developed by Google. They instead suggest to use Android Studio as a successor to Eclipse with the ADT plugin.
-
-If you want to use `Eclipse` in the future there is no guarantee that the ADT Plugin will work. `Use at your own risk.`
-
-**Installation**
-
-Install Eclipse from the following package: [Eclipse IDE for Java Developers](http://eclipse.org/downloads/).
-
-**Plugins**
-
-Git:
-
-  * For git support you need to install the plugin [EGit](http://www.eclipse.org/egit/download/).
-
-Gradle:
-
-  * For gradle support you need to add the update site of the [Spring Tool Suite](http://spring.io/tools/sts/all). The update site provides the plugin `Gradle Integration`.
-
-Android:
-
-  * For android support you need to install the plugin [ADT](https://developer.android.com/sdk/installing/installing-adt.html).
-
-**Make the ADT Plugin work with the project**
-
-To make the ADT Plugin work with the project you need to create an additional file:
-
-1. In the projects root directory create the following file if it doesn't exists: `project.properties`
-
-2. Add the following content to the file to tell the ADT Plugin the Android API version used by the project: `target=android-22`

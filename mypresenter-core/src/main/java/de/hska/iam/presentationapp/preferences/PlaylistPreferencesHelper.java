@@ -50,17 +50,8 @@ final class PlaylistPreferencesHelper {
     private PlaylistPreferencesHelper() {
     }
 
-    public static Set<String> getPlaylistNames(final Iterable<Playlist> playlistManager) {
-        Set<String> playlistNames = new HashSet<>();
-        for (final Playlist playlist : playlistManager) {
-            String playlistName = playlist.getName();
-            playlistNames.add(playlistName);
-        }
-        return playlistNames;
-    }
-
     public static Set<String> getFilePaths(final Playlist playlist) {
-        Set<String> filePaths = new HashSet<>(playlist.size());
+        Set<String> filePaths = new HashSet<>(playlist.getNumberOfItems());
         for (final Media media : playlist) {
             String absolutePath = media.getAbsolutePath();
             filePaths.add(absolutePath);

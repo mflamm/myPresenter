@@ -49,9 +49,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import java.util.List;
+
 import de.hska.iam.presentationapp.R;
 import de.hska.iam.presentationapp.fragments.FolderListFragment;
 import de.hska.iam.presentationapp.fragments.GridViewFragment;
@@ -66,6 +69,7 @@ public class ChooseMediaActivity extends FragmentActivity implements FolderListF
     private FolderListFragment folderListFragment;
     private GridViewFragment gridViewFragment;
     private Uri uri;
+
 
     /*
      *(non-Javadoc)
@@ -86,7 +90,7 @@ public class ChooseMediaActivity extends FragmentActivity implements FolderListF
         fragmentTransaction.commit();
 
         //button = (Button) findViewById(R.)
-      // button = (Button) findViewById(R.id.Choss_Data_button);
+        // button = (Button) findViewById(R.id.Choss_Data_button);
 //
     }
 //
@@ -113,22 +117,24 @@ public class ChooseMediaActivity extends FragmentActivity implements FolderListF
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.chooseFormat:
-                    ChooseFormatDialog chooseFormatDialog = new ChooseFormatDialog();
-                    chooseFormatDialog.show(getSupportFragmentManager(), "dialog");
+                ChooseFormatDialog chooseFormatDialog = new ChooseFormatDialog();
+                chooseFormatDialog.show(getSupportFragmentManager(), "dialog");
                 return true;
             case R.id.setTime:
                 DisplayTimeDialog displayTimeDialog = new DisplayTimeDialog();
                 displayTimeDialog.show(getSupportFragmentManager(), "dialog");
                 return true;
             case R.id.action_start_set:
-                    gridViewFragment.addPlaylistToPlaylistManager();
-                    startPresentationPaused(false);
+                gridViewFragment.addPlaylistToPlaylistManager();
+                startPresentationPaused(false);
                 return true;
             case R.id.Open_Data:
-                openData(dataPath().toString());
+                dataPath();
+                openData();
                 return true;
             case R.id.Share_Menu:
-                shareDate(dataPath().toString());
+                dataPath();
+                shareDate();
                 return true;
 
             default:
@@ -136,10 +142,12 @@ public class ChooseMediaActivity extends FragmentActivity implements FolderListF
         }
     }
 
-    public Uri dataPath() {
-        Media selecteItem = gridViewFragment.getSelectedItem();
-        this.uri = Uri.parse("file://" + selecteItem.getAbsolutePath());
-        return this.uri;
+    public void dataPath() {
+        Media selectedItem = gridViewFragment.getSelectedItem();
+        if (selectedItem != null) {
+            this.uri = Uri.parse("file://" + selectedItem.getAbsolutePath());
+        }
+        else this.uri = null;
     }
 
     /*
@@ -193,57 +201,64 @@ public class ChooseMediaActivity extends FragmentActivity implements FolderListF
         }
     }
 
-    public void shareDate(String share) {
+    private void shareDate() {
+        if (this.uri != null) {
+            Intent shareDataIntent = new Intent(Intent.ACTION_SEND);
+            shareDataIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
-        Intent shareDataIntent = new Intent(Intent.ACTION_SEND);
-        shareDataIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            if (UriUtils.isImage(uri)) {
 
-        if (UriUtils.isImage(uri)) {
+                shareDataIntent.setType("image/*");
+                startActivity(Intent.createChooser(shareDataIntent, "Teilen mit "));
 
-            shareDataIntent.setType("image/*");
-            startActivity(Intent.createChooser(shareDataIntent, "Teilen mit "));
+            } else if (UriUtils.isPdf(uri)) {
 
-        } else if (UriUtils.isPdf(uri)) {
-
-            shareDataIntent.setType("pdf/*");
-            startActivity(Intent.createChooser(shareDataIntent, "Teilen mit "));
-
-        } else if (UriUtils.isVideo(uri)) {
-
-            shareDataIntent.setType("video/*");
-            startActivity(Intent.createChooser(shareDataIntent, "Teilen mit "));
-
-        }
-    }
-
-    public void openData(String open){
-
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        PackageManager packageManager = getPackageManager();
-        List<ResolveInfo> app = packageManager.queryIntentActivities(intent, 0);
-
-        boolean isAppsAvailable = app.size() > 0;
-
-        if (isAppsAvailable) {
-
-            if (UriUtils.isPdf(uri)) {
-
-                intent.setDataAndType(uri, "application/pdf");
-                startActivity(Intent.createChooser(intent, "Starten mit "));
-
-            } else if (UriUtils.isImage(uri)) {
-
-                intent.setDataAndType(uri, "image/*");
-                startActivity(Intent.createChooser(intent, "Starten mit "));
+                shareDataIntent.setType("pdf/*");
+                startActivity(Intent.createChooser(shareDataIntent, "Teilen mit "));
 
             } else if (UriUtils.isVideo(uri)) {
 
-                intent.setDataAndType(uri,"video/*");
-                startActivity(Intent.createChooser(intent, "Starten mit "));
+                shareDataIntent.setType("video/*");
+                startActivity(Intent.createChooser(shareDataIntent, "Teilen mit "));
 
             }
+        } else {
+            Log.e("Share Selection", "Please select something!");
         }
+    }
+
+    public void openData() {
+        if (this.uri != null) {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            PackageManager packageManager = getPackageManager();
+            List<ResolveInfo> app = packageManager.queryIntentActivities(intent, 0);
+
+            boolean isAppsAvailable = app.size() > 0;
+
+            if (isAppsAvailable) {
+
+                if (UriUtils.isPdf(uri)) {
+
+                    intent.setDataAndType(uri, "application/pdf");
+                    startActivity(Intent.createChooser(intent, "Starten mit "));
+
+                } else if (UriUtils.isImage(uri)) {
+
+                    intent.setDataAndType(uri, "image/*");
+                    startActivity(Intent.createChooser(intent, "Starten mit "));
+
+                } else if (UriUtils.isVideo(uri)) {
+
+                    intent.setDataAndType(uri, "video/*");
+                    startActivity(Intent.createChooser(intent, "Starten mit "));
+
+                }
+            }
+        } else {
+            Log.e("Open with", "Please select something!");
+        }
+
     }
 }
 

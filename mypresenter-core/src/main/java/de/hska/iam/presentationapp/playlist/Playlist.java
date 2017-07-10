@@ -112,9 +112,9 @@ public class Playlist implements Iterable<Media> {
 
     /*
      * (non-Javadoc)
-     * @see java.util.List#size()
+     * @see java.util.List#getNumberOfItems()
      */
-    public int size() {
+    public int getNumberOfItems() {
         return playlist.size();
     }
 

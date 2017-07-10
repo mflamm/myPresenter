@@ -59,8 +59,8 @@ class BitmapLoader {
     }
 
     public void loadThumbnail(final CachedImage cachedImage, final ImageView imageView) {
-        Bitmap placeHolder = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
-        loadBitmap(cachedImage, imageView, placeHolder);
+        //Bitmap placeHolder = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
+        loadBitmap(cachedImage, imageView, null);
     }
 
     public void loadFullscreenImage(final CachedImage cachedImage, final ImageView imageView) {
@@ -144,6 +144,8 @@ class BitmapLoader {
 
             if (result != null) {
                 memoryCache.put(cachedImage, result);
+                //Log.i(getClass().getName(), "Task found Fullscreen Image at: " + imageFilePath);
+                Log.i("BitmapLoader", "Background found Imagetype: " + cachedImage.getImageType().toString() + " at: " + cachedImage.getImageFilePath());
                 setImageBitmap(result);
             }
         }

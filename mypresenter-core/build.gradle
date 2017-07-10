@@ -2,8 +2,8 @@ apply plugin: 'com.android.application'
 
 dependencies {
     // android support
-    compile 'com.android.support:support-annotations:24.1.1'
-    compile 'com.android.support:support-v4:24.1.1'
+    compile 'com.android.support:support-annotations:24.2.0'
+    compile 'com.android.support:support-v4:24.2.0'
     // android support multidex
     compile 'com.android.support:multidex:1.0.1'
     // android support multidex for tests
@@ -13,8 +13,8 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion '22.0.1'
+    compileSdkVersion 23
+    buildToolsVersion '24.0.2'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -42,13 +42,13 @@ android {
         }
 
         prod {
-            minSdkVersion 13
+            minSdkVersion 19
         }
     }
 
     dexOptions {
-        preDexLibraries false
-        javaMaxHeapSize "1g"
+        preDexLibraries true
+        javaMaxHeapSize "3g"
     }
 
     packagingOptions {

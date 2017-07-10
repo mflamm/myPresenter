@@ -238,9 +238,13 @@ public class GridViewFragment extends Fragment implements
         }
     }
 
-    // TODO
+    // TODO handle if nothing is selected
     public Media getSelectedItem() {
-        return  this.thumbnailAdapter.iterator().next();
+        if(this.thumbnailAdapter.iterator().hasNext()){
+            return this.thumbnailAdapter.iterator().next();
+        }
+        else{
+            return null;
+        }
     }
-
 }
